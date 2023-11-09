@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const wysaRoutes = require("./routes/wysaRoutes");
 const mongoose = require("mongoose");
 const app = express();
+const cors = require("cors");
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
