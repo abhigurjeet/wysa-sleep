@@ -14,7 +14,10 @@ main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(process.env.DB_URL);
 }
-
+app.use((req, res, next) => {
+  res.header("Access-Control-Expose-Headers", "Authorization");
+  next();
+});
 app.use("/", wysaRoutes);
 
 const PORT = process.env.PORT || 3001;

@@ -23,7 +23,6 @@ exports.createNewUser = async (req, res) => {
 };
 exports.getUser = async (req, res) => {
   const { nickName, password } = req.body;
-
   try {
     const user = await User.findOne({ nickName, password });
 
@@ -34,7 +33,8 @@ exports.getUser = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    return res.status(200).json({ message: "Login successful", token });
+    res.header("Authorization", token);
+    return res.status(200).json({ message: "Login successful" });
   } catch (error) {
     return res
       .status(500)
@@ -42,8 +42,7 @@ exports.getUser = async (req, res) => {
   }
 };
 exports.getAssessment = async (req, res) => {
-  const { nickName } = req.body;
-
+  const { nickName } = req.query;
   try {
     let tempQuestions = await Question.find();
     const questions = tempQuestions.map((item) => ({
